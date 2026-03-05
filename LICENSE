@@ -1,0 +1,106 @@
+Source Available License
+
+Copyright (c) 2025 Fabian Dzierzawa. All rights reserved.
+
+
+1. DEFINITIONS
+
+"Software" refers to the DQX Check Designer application, including all source
+code, documentation, configuration files, and associated materials in this
+repository.
+
+"Author" refers to Fabian Dzierzawa, the original creator and copyright holder
+of the Software.
+
+"Commercial Use" refers to any activity where the Software or its output is
+used to generate revenue from external customers. Internal cost allocation,
+chargebacks, or billing between departments within the same organization does
+not constitute Commercial Use under this license.
+
+"Proprietary System" refers to any closed-source, commercially licensed, or
+proprietary software product or platform.
+
+
+2. GRANT OF LICENSE
+
+Subject to the terms and conditions of this license, the Author grants you a
+limited, non-exclusive, non-transferable, revocable license to use, copy, and
+modify the Software, provided that ALL of the following conditions are met:
+
+  a) PRIOR PERMISSION: You must obtain prior written permission from the
+     Author before using the Software in any capacity. Contact the Author
+     via LinkedIn (https://www.linkedin.com/in/fabian-dzierzawa/) or other
+     available channels to request permission.
+
+  b) ATTRIBUTION: You must provide clear and visible attribution to the
+     original project and its Author in any use, deployment, or derivative
+     work. This includes, at a minimum:
+       - The name of the original project ("DQX Check Designer")
+       - The name of the Author ("Fabian Dzierzawa")
+       - A link to the original repository
+
+  c) NO PROPRIETARY INTEGRATION: You may not integrate, embed, bundle, or
+     otherwise incorporate the Software (in whole or in part) into any
+     Proprietary System.
+
+  d) NO COMMERCIAL REVENUE: You may not use the Software to generate revenue
+     from external customers. This includes, but is not limited to, selling
+     the Software, offering it as a paid service, or bundling it with paid
+     products. Internal use within an organization, including internal cost
+     allocation and departmental chargebacks, is permitted.
+
+
+3. DERIVATIVE WORKS
+
+You may create derivative works based on the Software, provided that:
+
+  a) All conditions in Section 2 continue to apply to the derivative work.
+  b) The derivative work clearly states that it is based on the original
+     Software and includes proper attribution as described in Section 2(b).
+  c) The derivative work is not used to circumvent any restriction in this
+     license.
+
+
+4. REDISTRIBUTION
+
+You may redistribute the Software or derivative works, provided that:
+
+  a) You include a copy of this license with any redistribution.
+  b) You do not misrepresent the origin of the Software.
+  c) All conditions in Section 2 continue to apply.
+  d) Recipients are made aware that they must also obtain permission from
+     the Author before use.
+
+
+5. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+6. TERMINATION
+
+This license is automatically terminated if you violate any of its terms. Upon
+termination, you must cease all use of the Software and destroy any copies in
+your possession.
+
+The Author reserves the right to revoke any previously granted permission at
+any time, with reasonable notice.
+
+
+7. GOVERNING LAW
+
+This license shall be governed by and construed in accordance with the laws of
+the Federal Republic of Germany.
+
+
+8. CONTACT
+
+For permission requests, questions, or inquiries regarding this license:
+
+  Fabian Dzierzawa
+  LinkedIn: https://www.linkedin.com/in/fabian-dzierzawa/
