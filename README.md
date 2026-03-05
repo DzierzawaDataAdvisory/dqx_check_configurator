@@ -1,73 +1,125 @@
-# React + TypeScript + Vite
+# DQX Check Designer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ein visueller Editor zum Erstellen von [Databricks DQX](https://databrickslabs.github.io/dqx/) Data-Quality-Checks — ohne Code schreiben zu müssen.
 
-Currently, two official plugins are available:
+## Wozu dient dieses Tool?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Databricks DQX prüft Datensätze anhand von YAML/JSON-Konfigurationsdateien. Diese Konfigurationen von Hand zu schreiben ist fehleranfällig und setzt technisches Wissen voraus. Der DQX Check Designer bietet eine grafische Oberfläche, die sowohl für Data Engineers als auch für nicht-technische Stakeholder (Data Stewards, Fachbereich) geeignet ist.
 
-## React Compiler
+**Kernfunktionen:**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Tabellen- & Schemakonfiguration** — Catalog, Schema, Tabelle definieren; Spalten manuell anlegen, per CSV importieren oder aus einem bestehenden YAML laden
+- **Check-Wizard** — geführter 3-Schritte-Assistent (Kategorie → Check-Typ → Parameter) mit 40+ vordefinierten Check-Typen
+- **Mehrere Check-Sets** — gleichzeitig mehrere Tabellen verwalten, zwischen Sets wechseln
+- **Vorlagen-Galerie** — vorgefertigte Prüfpakete für häufige Szenarien (PII, Finanzdaten, Referentielle Integrität …)
+- **Echtzeit-YAML-Vorschau** — ausgeklapptes Panel zeigt den generierten DQX-Output live
+- **Export** — Download als YAML oder ZIP, Copy-to-Clipboard
+- **Undo-fähiges Löschen** — Checks können per Toast-Benachrichtigung sofort rückgängig gemacht werden
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Bereich | Technologie |
+|---------|-------------|
+| Framework | React 19 + TypeScript |
+| Build | Vite 7 |
+| Styling | Tailwind CSS 3 (Dark Theme) |
+| State | Zustand 5 (mit `persist`) |
+| Drag & Drop | dnd-kit |
+| Icons | Lucide React |
+| YAML | js-yaml |
+| CSV-Import | PapaParse |
+| Container | Docker (nginx:stable-alpine) |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Lokale Entwicklung
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Voraussetzungen:** Node.js 22+
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Die App läuft unter `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Build & Deployment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Produktions-Build:**
+```bash
+npm run build       # TypeScript-Kompilierung + Vite-Build → dist/
+npm run preview     # Lokale Vorschau des dist/-Ordners
 ```
+
+**Docker (empfohlen für Deployment):**
+```bash
+docker compose up --build   # Build + Start auf Port 8080
+```
+
+Die App ist dann unter `http://localhost:8080` erreichbar. Das Docker-Image nutzt ein Multi-Stage-Build (Node 22 Builder → nginx Server) und ist damit minimal in der Größe.
+
+## Projektstruktur
+
+```
+src/
+├── components/
+│   ├── checks/       # Check-Wizard, CheckList, CheckCard, QuickAdd
+│   ├── export/       # Export-Panel, Run-Config
+│   ├── fields/       # Formular-Felder (Filter, Regex, Schema-Editor …)
+│   ├── help/         # Glossar
+│   ├── layout/       # AppShell, Header
+│   ├── onboarding/   # Interaktive Tour
+│   ├── preview/      # YAML-Vorschau (Raw / Erklärt)
+│   ├── project/      # Check-Set-Sidebar
+│   ├── table/        # Tabellen- & Spaltenkonfiguration
+│   ├── templates/    # Vorlagen-Galerie
+│   └── ui/           # Toast, InfoTooltip, GlossaryTerm …
+├── data/
+│   ├── checkRegistry.ts    # Alle Check-Definitionen + Formular-Schema
+│   └── checkTemplates.ts   # Vorlagen-Pakete
+├── hooks/
+│   ├── useCheckStore.ts    # Globaler Zustand (Zustand + persist)
+│   ├── useToastStore.ts    # Toast-Benachrichtigungen
+│   ├── useGlobalShortcuts.ts
+│   └── useModalKeyboard.ts
+├── lib/
+│   ├── yamlGenerator.ts    # CheckConfig → DQX YAML/JSON
+│   ├── yamlParser.ts       # DQX YAML → CheckConfig
+│   ├── checkValidator.ts   # Validierungslogik
+│   └── filterValidator.ts  # SQL-Filter-Validierung
+└── types/
+    └── dqx.ts              # Zentrale TypeScript-Typen
+```
+
+## Keyboard-Shortcuts
+
+| Taste | Aktion |
+|-------|--------|
+| `N` | Neuer Check (Wizard öffnen) |
+| `?` | Glossar öffnen |
+| `Ctrl`+`Enter` | Check speichern (im Wizard) |
+| `Escape` | Dialog schließen |
+
+Shortcuts sind in Eingabefeldern und offenen Dialogen deaktiviert.
+
+## Neuen Check-Typ hinzufügen
+
+Alle Check-Definitionen leben in `src/data/checkRegistry.ts`. Ein neuer Eintrag braucht:
+
+```typescript
+{
+  function: "is_not_null",          // DQX-Funktionsname
+  category: "completeness",         // Kategorie-Gruppe
+  level: "row",                     // "row" | "dataset"
+  displayName: "Darf nicht leer sein",
+  description: "...",
+  icon: "✓",
+  fields: [                         // Formularfelder (werden automatisch gerendert)
+    { key: "col_name", label: "Spalte", type: "column_select", required: true }
+  ]
+}
+```
+
+Der Rest (Formular-Rendering, YAML-Generierung, Validierung) passiert automatisch.
+
+## Lizenz
+
+Forschungsprototyp — kein Produktiveinsatz ohne Rücksprache.
