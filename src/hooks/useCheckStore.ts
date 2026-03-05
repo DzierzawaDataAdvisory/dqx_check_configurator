@@ -72,6 +72,14 @@ interface CheckStore {
   glossaryTerm: string | null;
   openGlossary: (term?: string) => void;
   closeGlossary: () => void;
+
+  // Wizard flow state (not persisted)
+  wizardStep: 1 | 2 | 3 | 4 | 5;
+  setWizardStep: (step: 1 | 2 | 3 | 4 | 5) => void;
+  userMode: "technical" | "business";
+  setUserMode: (mode: "technical" | "business") => void;
+  uploadedFromExcel: boolean;
+  setUploadedFromExcel: (val: boolean) => void;
 }
 
 // ─── Store ───────────────────────────────────────────────────────
@@ -295,6 +303,14 @@ export const useCheckStore = create<CheckStore>()(
       glossaryTerm: null,
       openGlossary: (term) => set({ glossaryTerm: term ?? "" }),
       closeGlossary: () => set({ glossaryTerm: null }),
+
+      // Wizard flow state
+      wizardStep: 1,
+      setWizardStep: (step) => set({ wizardStep: step }),
+      userMode: "technical",
+      setUserMode: (mode) => set({ userMode: mode }),
+      uploadedFromExcel: false,
+      setUploadedFromExcel: (val) => set({ uploadedFromExcel: val }),
     }),
     {
       name: "dqx-check-designer-state",
