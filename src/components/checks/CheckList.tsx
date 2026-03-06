@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import {
   Plus, ChevronDown, ChevronRight, Trash2, AlertTriangle,
   Search, X, Layout, CheckSquare, Square, AlertCircle, CheckCircle,
-  Filter, BookOpen, Upload,
+  Filter, BookOpen, Upload, Wand2,
 } from "lucide-react";
 import { useCheckStore } from "../../hooks/useCheckStore";
 import type { CheckConfig, CheckCategory, Criticality } from "../../types/dqx";
@@ -13,6 +13,7 @@ import { toast } from "../../hooks/useToastStore";
 
 // Lazy-loaded heavy modals
 const CheckWizard = lazy(() => import("./CheckWizard").then(m => ({ default: m.CheckWizard })));
+const GuidedCheckWizard = lazy(() => import("./GuidedCheckWizard").then(m => ({ default: m.GuidedCheckWizard })));
 const TemplateGallery = lazy(() => import("../templates/TemplateGallery").then(m => ({ default: m.TemplateGallery })));
 const CheckImport = lazy(() => import("../import/CheckImport").then(m => ({ default: m.CheckImport })));
 import {
@@ -114,6 +115,7 @@ export function CheckList() {
   const [editingCheck, setEditingCheck] = useState<CheckConfig | undefined>();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [preselectedCategory, setPreselectedCategory] = useState<CheckCategory | undefined>();
+  const [guidedWizardOpen, setGuidedWizardOpen] = useState(false);
   const [templateGalleryOpen, setTemplateGalleryOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
@@ -298,6 +300,14 @@ export function CheckList() {
           >
             <BookOpen size={15} />
             Vorlage
+          </button>
+          <button
+            onClick={() => setGuidedWizardOpen(true)}
+            className="btn-secondary flex items-center gap-2"
+            title="Geführter Wizard: Checks Schritt für Schritt nach Komplexität erstellen"
+          >
+            <Wand2 size={15} />
+            Geführt
           </button>
           <button
             onClick={() => { setEditingCheck(undefined); setPreselectedCategory(undefined); setWizardOpen(true); }}
@@ -495,6 +505,14 @@ export function CheckList() {
               Vorlage wählen
             </button>
             <button
+              onClick={() => setGuidedWizardOpen(true)}
+              className="btn-secondary flex items-center gap-2"
+              title="Geführter Wizard: Checks Schritt für Schritt nach Komplexität erstellen"
+            >
+              <Wand2 size={15} />
+              Geführter Wizard
+            </button>
+            <button
               onClick={() => { setEditingCheck(undefined); setPreselectedCategory(undefined); setWizardOpen(true); }}
               className="btn-primary flex items-center gap-2"
             >
@@ -644,6 +662,11 @@ export function CheckList() {
               setEditingCheck(undefined);
               setPreselectedCategory(undefined);
             }}
+          />
+        )}
+        {guidedWizardOpen && (
+          <GuidedCheckWizard
+            onClose={() => setGuidedWizardOpen(false)}
           />
         )}
         {templateGalleryOpen && (
